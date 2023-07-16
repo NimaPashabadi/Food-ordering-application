@@ -23,12 +23,36 @@ public class AdminMenu {
             if (command.matches("^\\s*(b|B)(a|A)(c|C)(k|K)\\s+(T|t)(O|o)\\s+(m|M)(a|A)in\\s+(m|M)(e|E)(n|N)(u|U)\\s*$")) return;
             else if ((matcher = Menu.getMatcher(command, "^\\s*add\\s+restaurant\\s+(?<restaurantName>\\S+)\\s+(?<location>\\S+)\\s*$")) != null) {
                 adminMenuController.addRestaurant(matcher.group("restaurantName"), matcher.group("location"));
+                try{
+                    DataBase.toJSON();
+                }catch (Exception e){}
+                try{
+                    DataBase.toJSONForRestaurants();
+                }catch (Exception e){}
             } else if ((matcher = Menu.getMatcher(command, "^\\s*show\\s+all\\s+restaurants\\s*$")) != null) {
                 adminMenuController.showAllRestaurants();
+                try{
+                    DataBase.toJSON();
+                }catch (Exception e){}
+                try{
+                    DataBase.toJSONForRestaurants();
+                }catch (Exception e){}
             } else if ((matcher = Menu.getMatcher(command, "^\\s*select\\s+(?<restaurantId>\\S+)\\s*$")) != null) {
                 int id = Integer.parseInt(matcher.group("restaurantId"));
                 DataBase.setCurrentRestaurantForAdmin(DataBase.getCurrentAdmin().getRestaurantById(id));
+                try{
+                    DataBase.toJSON();
+                }catch (Exception e){}
+                try{
+                    DataBase.toJSONForRestaurants();
+                }catch (Exception e){}
                 restaurantMenuForAdmin.run(DataBase.getCurrentRestaurantForAdmin());
+                try{
+                    DataBase.toJSON();
+                }catch (Exception e){}
+                try{
+                    DataBase.toJSONForRestaurants();
+                }catch (Exception e){}
                 System.out.println("NOW YOU ARE IN ADMIN MENU");
             }else {
                 System.out.println("INVALID COMMAND!");

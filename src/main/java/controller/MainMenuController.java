@@ -35,7 +35,6 @@ public class MainMenuController {
 
     public void run() {
         loginMenu.run();
-
         while (true) {
             switch (mainMenu.run()) {
                 case "admin menu":
@@ -68,12 +67,34 @@ public class MainMenuController {
             return "REGISTER FAILED: USERNAME ALREADY EXISTS";
         if (password.length() < 5 || !password.matches(".*[A-Z].*") || !password.matches(".*[a-z].*") || !password.matches(".*[0-9].*"))
             return "REGISTER FAILED: PASSWORD IS WEAK";
-        if (role.equals("ADMIN"))
+        if (role.equals("ADMIN")) {
             DataBase.addAdmin(username, password, securityQuestion, securityAnswer);
-        else if (role.equals("USER"))
+            try{
+                DataBase.toJSON();
+            }catch (Exception e){
+
+            }
+            try{
+                DataBase.toJSONForRestaurants();
+            }catch (Exception e){}
+        } else if (role.equals("USER")){
             DataBase.addUser(username, password, securityQuestion, securityAnswer);
-        else if (role.equals("DELIVERY"))
+            try{
+                DataBase.toJSON();
+            }catch (Exception e){}
+            try{
+                DataBase.toJSONForRestaurants();
+            }catch (Exception e){}
+        }
+        else if (role.equals("DELIVERY")){
             DataBase.addDelivery(username, password, securityQuestion, securityAnswer);
+            try{
+                DataBase.toJSON();
+            }catch (Exception e){}
+            try{
+                DataBase.toJSONForRestaurants();
+            }catch (Exception e){}
+        }
         else
             return "REGISTER FAILED: INVALID ROLE!";
         return "REGISTER SUCCESSFUL";
@@ -86,6 +107,12 @@ public class MainMenuController {
                 return "LOGIN FAILED: INCORRECT PASSWORD!";
             }
             DataBase.setCurrentUser(loggedInUser);
+            try{
+                DataBase.toJSON();
+            }catch (Exception e){}
+            try{
+                DataBase.toJSONForRestaurants();
+            }catch (Exception e){}
             return "LOGGED IN SUCCESSFULLY AS AN USER";
         } else if (role.equals("ADMIN") && (loggedInAdmin = DataBase.getAdminByUsername(username)) != null) {
             if (!loggedInAdmin.isPasswordCorrect(password)) {
@@ -93,12 +120,25 @@ public class MainMenuController {
                 return "LOGIN FAILED: INCORRECT PASSWORD!";
             }
             DataBase.setCurrentAdmin(loggedInAdmin);
+            try{
+                DataBase.toJSON();
+            }catch (Exception e){}
+            try{
+                DataBase.toJSONForRestaurants();
+            }catch (Exception e){}
             return "LOGGED IN SUCCESSFULLY AS AN ADMIN";
         } else if (role.equals("DELIVERY") && (loggedInDelivery = DataBase.getDeliveryByUsername(username)) != null) {
             if (!loggedInAdmin.isPasswordCorrect(password)) {
                 loggedInDelivery = null;
                 return "LOGIN FAILED: INCORRECT PASSWORD!";
             }
+            DataBase.setCurrentDelivery(loggedInDelivery);
+            try{
+                DataBase.toJSON();
+            }catch (Exception e){}
+            try{
+                DataBase.toJSONForRestaurants();
+            }catch (Exception e){}
             return "LOGGED IN SUCCESSFULLY AS A DELIVERY";
         } else
             return "LOGIN FAILED: USER NOT FOUND!";
@@ -114,17 +154,37 @@ public class MainMenuController {
         if (role.equals("USER") && DataBase.getUserByUsername(username).getSecurityAnswer().equals(securityAnswer)) {
             if (newPassword.length() < 5 || !newPassword.matches(".*[A-Z].*") || !newPassword.matches(".*[a-z].*") || !newPassword.matches(".*[0-9].*"))
                 return "REGISTER FAILED: PASSWORD IS WEAK";
-            else DataBase.getUserByUsername(username).setPassword(newPassword);
+            else{ DataBase.getUserByUsername(username).setPassword(newPassword);
+                try{
+                    DataBase.toJSON();
+                }catch (Exception e){}
+                try{
+                    DataBase.toJSONForRestaurants();
+                }catch (Exception e){}
+            }
         }
         if (role.equals("ADMIN") && DataBase.getAdminByUsername(username).getSecurityAnswer().equals(securityAnswer)) {
             if (newPassword.length() < 5 || !newPassword.matches(".*[A-Z].*") || !newPassword.matches(".*[a-z].*") || !newPassword.matches(".*[0-9].*"))
                 return "REGISTER FAILED: PASSWORD IS WEAK";
-            else DataBase.getAdminByUsername(username).setPassword(newPassword);
+            else{ DataBase.getAdminByUsername(username).setPassword(newPassword);
+                try{
+                    DataBase.toJSON();
+                }catch (Exception e){}
+                try{
+                    DataBase.toJSONForRestaurants();
+                }catch (Exception e){}
+            }
         }
         if (role.equals("DELIVERY") && DataBase.getDeliveryByUsername(username).getSecurityAnswer().equals(securityAnswer)) {
             if (newPassword.length() < 5 || !newPassword.matches(".*[A-Z].*") || !newPassword.matches(".*[a-z].*") || !newPassword.matches(".*[0-9].*"))
                 return "REGISTER FAILED: PASSWORD IS WEAK";
-            else DataBase.getDeliveryByUsername(username).setPassword(newPassword);
+            else{ DataBase.getDeliveryByUsername(username).setPassword(newPassword);
+                try{
+                    DataBase.toJSON();
+                }catch (Exception e){}
+                try{
+                    DataBase.toJSONForRestaurants();
+                }catch (Exception e){}}
         }
         return "PASSWORD CHANGED SUCCESSFULLY";
     }

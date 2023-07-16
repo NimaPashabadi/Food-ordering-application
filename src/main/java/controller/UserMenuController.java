@@ -80,9 +80,6 @@ public class UserMenuController {
         }
     }
 
-
-
-
     public long estimateTime1(int deliveryNode , int ResturantNode)
     {
         return (Map.dijkstra(deliveryNode , ResturantNode))*100;

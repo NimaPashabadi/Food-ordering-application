@@ -11,15 +11,22 @@ import java.lang.reflect.Array;
 import java.util.*;
 
 public class DataBase {
+
+
     private static Admin currentAdmin;
     private static User currentUser;
     private static Restaurant currentRestaurantForAdmin;
     private static Restaurant currentRestaurantForUser;
-    private static ArrayList<ParentUser> parentUsers = new ArrayList<>();
-    private static ArrayList<Restaurant> restaurants = new ArrayList<>();
+    private static List<ParentUser> parentUsers;
+    private static List<Restaurant> restaurants;
     private static Food currentFoodForAdmin;
     private static Food currentFoodForUser;
     private static Delivery currentDelivery;
+
+    public DataBase() {
+        parentUsers = new ArrayList<>();
+        restaurants = new ArrayList<>();
+    }
 
     public static Food getCurrentFoodForUser() {
         return currentFoodForUser;
@@ -29,7 +36,7 @@ public class DataBase {
         DataBase.currentFoodForUser = currentFoodForUser;
     }
 
-    public static ArrayList<Restaurant> getRestaurants() {
+    public static List<Restaurant> getRestaurants() {
         return restaurants;
     }
 
@@ -41,7 +48,7 @@ public class DataBase {
         restaurants.add(restaurant);
     }
 
-    public static ArrayList<ParentUser> getParentUsers() {
+    public static List<ParentUser> getParentUsers() {
         return parentUsers;
     }
 
@@ -226,22 +233,54 @@ public class DataBase {
         }
         return null;
     }
-    /*public void fromJSON() throws IOException {
+
+
+    public static void fromJSON() throws IOException {
         JsonObject usersDBJson;
         Gson gson = new Gson();
-        FileReader usersJSON = new FileReader(pathToUsersDBJsonFile);
-        this.user = gson.fromJson(usersJSON, new TypeToken<List<User>>(){}.getType());
+        String file = "src/ParentUserDb.json";
+        FileReader usersJSON = new FileReader(file);
+        parentUsers = gson.fromJson(usersJSON, new TypeToken<List<ParentUser>>() {
+        }.getType());
         usersJSON.close();
     }
 
-    public void toJSON() throws IOException {
+    public static void toJSON() throws IOException {
         Gson gson = new Gson();
-        FileWriter usersJSON = new FileWriter(pathToUsersDBJsonFile);
-        String jsonData = gson.toJson(this.users, new TypeToken<List<User>>(){}.getType());
+        String file = "src/ParentUserDb.json";
+        FileWriter usersJSON = new FileWriter(file);
+        String jsonData = gson.toJson(parentUsers, new TypeToken<List<ParentUser>>() {
+        }.getType());
         BufferedWriter writer = new BufferedWriter(usersJSON);
+        System.out.println("kirkhar 1");
         writer.write(jsonData);
         writer.close();
-    } */
+    }
+
+
+    public static void fromJSONForRestaurants() throws IOException {
+        JsonObject usersDBJson;
+        Gson gson = new Gson();
+        String file = "src/RestaurantDb.json";
+        FileReader usersJSON = new FileReader(file);
+        restaurants = gson.fromJson(usersJSON, new TypeToken<List<Restaurant>>() {
+        }.getType());
+        usersJSON.close();
+    }
+
+    public static void toJSONForRestaurants() throws IOException {
+        Gson gson = new Gson();
+        String file = "src/RestaurantDb.json";
+        FileWriter usersJSON = new FileWriter(file);
+        System.out.println(usersJSON);
+        String jsonData = gson.toJson(restaurants, new TypeToken<List<Restaurant>>() {
+        }.getType());
+        BufferedWriter writer = new BufferedWriter(usersJSON);
+
+        writer.write(jsonData);
+        writer.close();
+    }
+
 
     public static int[][] getMapMatrix() {
         File file = new File("graph.txt");

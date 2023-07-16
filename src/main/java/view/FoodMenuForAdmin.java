@@ -23,12 +23,38 @@ public class FoodMenuForAdmin {
             if (command.matches("^\\s*back to restaurant menu\\s*$")) return;
             else if ((matcher = Menu.getMatcher(command, "^\\s*display\\s+rating\\s*$")) != null) {
                 foodMenuForAdminController.showRating();
+                try{
+                    DataBase.toJSON();
+                }catch (Exception e){}
+                try{
+                    DataBase.toJSONForRestaurants();
+                }catch (Exception e){}
             } else if ((matcher = Menu.getMatcher(command, "^\\s*display\\s+comments\\s*$")) != null) {
                 foodMenuForAdminController.displayComments();
+                try{
+                    DataBase.toJSON();
+                }catch (Exception e){}
+                try{
+                    DataBase.toJSONForRestaurants();
+                }catch (Exception e){}
             } else if ((matcher = Menu.getMatcher(command, "^\\s*add\\s+new\\s+response\\s+(?<commentId>\\S+)\\s+(?<message>\\S+)\\s*$")) != null) {
                 foodMenuForAdminController.addNewResponse(matcher.group("commentId"), matcher.group("message"));
+                try{
+                    DataBase.toJSON();
+                }catch (Exception e){}
+                try{
+                    DataBase.toJSONForRestaurants();
+                }catch (Exception e){}
+
             } else if ((matcher = Menu.getMatcher(command, "^\\s*edit\\s+response\\s+(?<commentId>\\S+)\\s+(?<message>\\S+)\\s*$")) != null) {
                 foodMenuForAdminController.editResponse(matcher.group("commentId"), matcher.group("message"));
+                try{
+                    DataBase.toJSON();
+                }catch (Exception e){}
+                try{
+                    DataBase.toJSONForRestaurants();
+                }catch (Exception e){}
+
             }else {
                 System.out.println("INVALID COMMAND!");
             }

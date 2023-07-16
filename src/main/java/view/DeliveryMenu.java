@@ -20,11 +20,29 @@ public class DeliveryMenu {
             if (command.matches("^\\s*back to main menu\\s*$")) return;
             else if((matcher = Menu.getMatcher(command, "^\\s*show\\s+orders\\s+without\\s+delivery\\s*$"))!=null){
                 deliveryMenuController.showOrdersWithoutDelivery();
+                try{
+                    DataBase.toJSON();
+                }catch (Exception e){}
+                try{
+                    DataBase.toJSONForRestaurants();
+                }catch (Exception e){}
             }
             else if((matcher = Menu.getMatcher(command, "^\\s*select\\s+order\\s*$"))!=null){
                 deliveryMenuController.selectOrder();
+                try{
+                    DataBase.toJSON();
+                }catch (Exception e){}
+                try{
+                    DataBase.toJSONForRestaurants();
+                }catch (Exception e){}
             } else if ((matcher = Menu.getMatcher(command, "^\\s*show\\s+distance\\s*$"))!=null) {
                 deliveryMenuController.showDistance();
+                try{
+                    DataBase.toJSON();
+                }catch (Exception e){}
+                try{
+                    DataBase.toJSONForRestaurants();
+                }catch (Exception e){}
             }else {
                 System.out.println("INVALID COMMAND!");
             }
