@@ -35,7 +35,7 @@ public class LoginMenu {
                         matcher.group("username"),
                         matcher.group("password"));
                 System.out.println(output);
-                if (output.equals("logged in successfully as a delivery")||output.equals("logged in successfully as an admin")||output.equals("logged in successfully as an user")){
+                if (output.equals("LOGGED IN SUCCESSFULLY AS A DELIVERY")||output.equals("LOGGED IN SUCCESSFULLY AS AN ADMIN")||output.equals("LOGGED IN SUCCESSFULLY AS AN USER")){
                     return;
                 }
             } else if ((matcher = Menu.getMatcher(command, "^\\s*(FORGET|Forget|forget)\\s+(PASSWORD|Password|password)\\s+(?<role>\\S+)\\s+(?<username>\\S+)\\s+(?<securityAnswer>\\S+)\\s+(?<newPassword>\\S+)\\s*$")) != null) {
@@ -45,7 +45,7 @@ public class LoginMenu {
                         matcher.group("securityAnswer"),
                         matcher.group("newPassword")));
             } else {
-                System.out.println("invalid command!");
+                System.out.println("INVALID COMMAND!");
             }
         }
     }

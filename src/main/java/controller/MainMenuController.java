@@ -35,6 +35,7 @@ public class MainMenuController {
 
     public void run() {
         loginMenu.run();
+
         while (true) {
             switch (mainMenu.run()) {
                 case "admin menu":
@@ -43,11 +44,11 @@ public class MainMenuController {
                     break;
                 case "user menu":
                     userMenu.run();
-                    System.out.println("YOU ARE IN MAIN MENU");
+                    System.out.println("NOW YOU ARE IN MAIN MENU");
                     break;
                 case "delivery menu":
                     deliveryMenu.run();
-                    System.out.println("YOU ARE IN MAIN MENU");
+                    System.out.println("NOW YOU ARE IN MAIN MENU");
                     break;
                 case "logout":
                     loginMenu.run();
@@ -60,13 +61,13 @@ public class MainMenuController {
 
     public String register(String role, String username, String password, String securityQuestion, String securityAnswer) {
         if (role.equals("USER") && DataBase.getUserByUsername(username) != null)
-            return "register failed: username already exists";
+            return "REGISTER FAILED: USERNAME ALREADY EXISTS";
         if (role.equals("ADMIN") && DataBase.getAdminByUsername(username) != null)
-            return "register failed: username already exists";
+            return "REGISTER FAILED: USERNAME ALREADY EXISTS";
         if (role.equals("DELIVERY") && DataBase.getDeliveryByUsername(username) != null)
-            return "register failed: username already exists";
+            return "REGISTER FAILED: USERNAME ALREADY EXISTS";
         if (password.length() < 5 || !password.matches(".*[A-Z].*") || !password.matches(".*[a-z].*") || !password.matches(".*[0-9].*"))
-            return "register failed: password is weak";
+            return "REGISTER FAILED: PASSWORD IS WEAK";
         if (role.equals("ADMIN"))
             DataBase.addAdmin(username, password, securityQuestion, securityAnswer);
         else if (role.equals("USER"))
@@ -74,63 +75,63 @@ public class MainMenuController {
         else if (role.equals("DELIVERY"))
             DataBase.addDelivery(username, password, securityQuestion, securityAnswer);
         else
-            return "register failed: invalid role!";
-        return "register successful";
+            return "REGISTER FAILED: INVALID ROLE!";
+        return "REGISTER SUCCESSFUL";
     }
 
     public String login(String role, String username, String password) {
         if (role.equals("USER") && (loggedInUser = DataBase.getUserByUsername(username)) != null) {
             if (!loggedInUser.isPasswordCorrect(password)) {
                 loggedInUser = null;
-                return "login failed: incorrect password!";
+                return "LOGIN FAILED: INCORRECT PASSWORD!";
             }
             DataBase.setCurrentUser(loggedInUser);
-            return "logged in successfully as an user";
+            return "LOGGED IN SUCCESSFULLY AS AN USER";
         } else if (role.equals("ADMIN") && (loggedInAdmin = DataBase.getAdminByUsername(username)) != null) {
             if (!loggedInAdmin.isPasswordCorrect(password)) {
                 loggedInAdmin = null;
-                return "login failed: incorrect password!";
+                return "LOGIN FAILED: INCORRECT PASSWORD!";
             }
             DataBase.setCurrentAdmin(loggedInAdmin);
-            return "logged in successfully as an admin";
+            return "LOGGED IN SUCCESSFULLY AS AN ADMIN";
         } else if (role.equals("DELIVERY") && (loggedInDelivery = DataBase.getDeliveryByUsername(username)) != null) {
             if (!loggedInAdmin.isPasswordCorrect(password)) {
                 loggedInDelivery = null;
-                return "login failed: incorrect password!";
+                return "LOGIN FAILED: INCORRECT PASSWORD!";
             }
-            return "logged in successfully as a delivery";
+            return "LOGGED IN SUCCESSFULLY AS A DELIVERY";
         } else
-            return "login failed: user not found!";
+            return "LOGIN FAILED: USER NOT FOUND!";
     }
 
     public String forgetPassword(String role, String username, String securityAnswer, String newPassword) {
         if (role.equals("USER") && DataBase.getUserByUsername(username) == null)
-            return "Change failed: username does not exists";
+            return "CHANGE FAILED: USERNAME DOES NOT EXISTS";
         if (role.equals("ADMIN") && DataBase.getAdminByUsername(username) == null)
-            return "Change failed: username does not exists";
+            return "CHANGE FAILED: USERNAME DOES NOT EXISTS";
         if (role.equals("DELIVERY") && DataBase.getDeliveryByUsername(username) == null)
-            return "Change failed: username does not exists";
+            return "CHANGE FAILED: USERNAME DOES NOT EXISTS";
         if (role.equals("USER") && DataBase.getUserByUsername(username).getSecurityAnswer().equals(securityAnswer)) {
             if (newPassword.length() < 5 || !newPassword.matches(".*[A-Z].*") || !newPassword.matches(".*[a-z].*") || !newPassword.matches(".*[0-9].*"))
-                return "register failed: password is weak";
+                return "REGISTER FAILED: PASSWORD IS WEAK";
             else DataBase.getUserByUsername(username).setPassword(newPassword);
         }
         if (role.equals("ADMIN") && DataBase.getAdminByUsername(username).getSecurityAnswer().equals(securityAnswer)) {
             if (newPassword.length() < 5 || !newPassword.matches(".*[A-Z].*") || !newPassword.matches(".*[a-z].*") || !newPassword.matches(".*[0-9].*"))
-                return "register failed: password is weak";
+                return "REGISTER FAILED: PASSWORD IS WEAK";
             else DataBase.getAdminByUsername(username).setPassword(newPassword);
         }
         if (role.equals("DELIVERY") && DataBase.getDeliveryByUsername(username).getSecurityAnswer().equals(securityAnswer)) {
             if (newPassword.length() < 5 || !newPassword.matches(".*[A-Z].*") || !newPassword.matches(".*[a-z].*") || !newPassword.matches(".*[0-9].*"))
-                return "register failed: password is weak";
+                return "REGISTER FAILED: PASSWORD IS WEAK";
             else DataBase.getDeliveryByUsername(username).setPassword(newPassword);
         }
-        return "Password Changed successfully";
+        return "PASSWORD CHANGED SUCCESSFULLY";
     }
 
     public String logout() {
         loggedInUser = null;
         loggedInAdmin = null;
-        return "logout successful";
+        return "LOGOUT SUCCESSFUL";
     }
 }

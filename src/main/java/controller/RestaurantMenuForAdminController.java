@@ -11,11 +11,13 @@ public class RestaurantMenuForAdminController {
     }
 
     public void showRestaurantLocation() {
-        System.out.println(DataBase.getCurrentRestaurantForAdmin().getLocation().getName());
+        DataBase.getCurrentRestaurantForAdmin().getLoc().showLocation();
     }
 
     public void editRestaurantLocation(String nodeName) {
-        DataBase.getCurrentRestaurantForAdmin().setLocation(DataBase.geNodeByName(nodeName));
+        int loc = Integer.parseInt(nodeName);
+        Mapi mapi = new Mapi(loc);
+        DataBase.getCurrentRestaurantForAdmin().setLoc(mapi);
     }
 
     public void determineRestaurantFoodType() {

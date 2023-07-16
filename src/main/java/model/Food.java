@@ -1,7 +1,4 @@
 package model;
-
-import model.DataBase.DataBase;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -13,7 +10,6 @@ public class Food {
     private Random rand = new Random();
     private String comment;
     private double costAfterDiscount;
-
     private ArrayList<Comment> comments;
     private ArrayList<Rate> Rates;
     private boolean isThereDiscount;
@@ -22,7 +18,7 @@ public class Food {
 
     public Food(String name, double cost) {
         this.name = name;
-        int n = rand.nextInt(10000);
+        int n = rand.nextInt(100000);
         this.id = n;
         this.cost = cost;
         this.discount = discount;

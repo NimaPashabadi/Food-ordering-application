@@ -3,7 +3,12 @@ package model.DataBase;
 import model.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import java.util.ArrayList;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.*;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class DataBase {
     private static Admin currentAdmin;
@@ -12,7 +17,6 @@ public class DataBase {
     private static Restaurant currentRestaurantForUser;
     private static ArrayList<ParentUser> parentUsers = new ArrayList<>();
     private static ArrayList<Restaurant> restaurants = new ArrayList<>();
-    private static ArrayList<Node> nodes = new ArrayList<>();
     private static Food currentFoodForAdmin;
     private static Food currentFoodForUser;
     private static Delivery currentDelivery;
@@ -36,6 +40,7 @@ public class DataBase {
     public static void addRestaurant(Restaurant restaurant) {
         restaurants.add(restaurant);
     }
+
     public static ArrayList<ParentUser> getParentUsers() {
         return parentUsers;
     }
@@ -135,18 +140,6 @@ public class DataBase {
         }
     }
 
-    public static void addNode(Node node) {
-        nodes.add(node);
-    }
-
-    public static Node getNodeByName(String name) {
-        for (Node node : nodes) {
-            if (node.getName().equals(name))
-                return node;
-        }
-        return null;
-    }
-
     public static Admin getCurrentAdmin() {
         return currentAdmin;
     }
@@ -195,14 +188,6 @@ public class DataBase {
         }
     }
 
-    public static Node geNodeByName(String name) {
-        for (Node node : nodes) {
-            if (node.getName().equals(name))
-                return node;
-        }
-        return null;
-    }
-
     public static Food getCurrentFoodForAdmin() {
         return currentFoodForAdmin;
     }
@@ -241,4 +226,52 @@ public class DataBase {
         }
         return null;
     }
+    /*public void fromJSON() throws IOException {
+        JsonObject usersDBJson;
+        Gson gson = new Gson();
+        FileReader usersJSON = new FileReader(pathToUsersDBJsonFile);
+        this.user = gson.fromJson(usersJSON, new TypeToken<List<User>>(){}.getType());
+        usersJSON.close();
+    }
+
+    public void toJSON() throws IOException {
+        Gson gson = new Gson();
+        FileWriter usersJSON = new FileWriter(pathToUsersDBJsonFile);
+        String jsonData = gson.toJson(this.users, new TypeToken<List<User>>(){}.getType());
+        BufferedWriter writer = new BufferedWriter(usersJSON);
+        writer.write(jsonData);
+        writer.close();
+    } */
+
+    public static int[][] getMapMatrix() {
+        File file = new File("graph.txt");
+        int[][] MapMatrix = new int[1001][1001];
+        Scanner scanner;
+        try {
+            scanner = new Scanner(file);
+            ArrayList<String> MapS = new ArrayList<>();
+            while (scanner.hasNextLine()) {
+                MapS.add(scanner.nextLine().trim());
+            }
+            MapS.remove(0);
+
+            for (int i = 0; i < 1000; i++) {
+                for (int j = 0; j < 1000; j++) {
+                    MapMatrix[i][j] = 0;
+                }
+            }
+            for (int i = 0; i < 2509; i++) {
+                String[] parts = MapS.get(i).split("\\s");
+                int x = Integer.parseInt(parts[0]);
+                int y = Integer.parseInt(parts[1]);
+                int length = Integer.parseInt(parts[2]);
+                MapMatrix[x][y] = length;
+                MapMatrix[y][x] = length;
+            }
+            return MapMatrix;
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

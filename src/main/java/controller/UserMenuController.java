@@ -1,10 +1,7 @@
 package controller;
 
+import model.*;
 import model.DataBase.DataBase;
-import model.Discount;
-import model.Food;
-import model.Order;
-import model.ParentUser;
 import view.Menu;
 
 import java.security.PublicKey;
@@ -82,4 +79,19 @@ public class UserMenuController {
             System.out.println(discount.getPrice());
         }
     }
+
+
+
+
+    public long estimateTime1(int deliveryNode , int ResturantNode)
+    {
+        return (Map.dijkstra(deliveryNode , ResturantNode))*100;
+    }
+
+    public long estimateTime2(int ResturantNode , int CustomerNode)
+    {
+        return (Map.dijkstra(ResturantNode , CustomerNode))*100;
+    }
+
+
 }

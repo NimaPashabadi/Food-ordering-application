@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class Restaurant {
     private String name;
+    private Mapi loc;
     private Admin admin;
     private int id;
     private boolean isThereOrder;
@@ -20,14 +21,15 @@ public class Restaurant {
     private ArrayList<Comment> comments;
     private ArrayList<Rate> rates;
 
-    public Restaurant(String name, Node location) {
+    public Restaurant(String name, Mapi loc) {
         this.name = name;
         this.admin = admin;
+        this.loc = loc;
         allOrders = new ArrayList<>();
         menu = new ArrayList<>();
         onlineOrder = new ArrayList<>();
         restaurantType = new ArrayList<>();
-        int n = rand.nextInt(1000);
+        int n = rand.nextInt(100000);
         for (Restaurant restaurant : DataBase.getRestaurants() ) {
             if(n!=restaurant.getId()){
                 this.id = n;
@@ -181,5 +183,13 @@ public class Restaurant {
 
     public void setRates(ArrayList<Rate> rates) {
         this.rates = rates;
+    }
+
+    public Mapi getLoc() {
+        return loc;
+    }
+
+    public void setLoc(Mapi loc) {
+        this.loc = loc;
     }
 }
